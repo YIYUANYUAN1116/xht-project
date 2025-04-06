@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xht.program.mapper.CommentMapper">
+    <update id="incLikeCount">
+        update comments
+            set like_count = like_count + 1,
+            update_time = now()
+        where id = #{commentId}
+    </update>
+    <update id="decLikeCount">
+        update comments
+        set like_count = like_count - 1,
+            update_time = now()
+        where id = #{commentId}
+    </update>
+    <update id="updateParent">
+        update comments
+        set reply_count = reply_count + 1
+        where id = #{parentId}
+    </update>
+    <update id="updateReplyTo">
+        update comments
+        set reply_count = reply_count + 1
+        where id = #{replyToId}
+    </update>
+
+
+    <select id="selectPageCommentVo" resultType="com.xht.model.vo.comment.CommentVo">
+        select
+            article_id,user_id,content,like_count,parent_id,id,reply_count,reply_to_id
+        from comments where article_id = #{articleId} and is_deleted = 0 and parent_id = 0
+        order by create_time
+    </select>
+    <select id="getPreviewReplies" resultType="com.xht.model.vo.comment.CommentVo">
+        select
+            article_id,user_id,content,like_count,parent_id,id,reply_to_id
+        from comments where  is_deleted = 0 and parent_id in
+            <foreach collection="parentIds" index="index" item="parentId" open="(" close=")" separator=",">
+                #{parentId}
+            </foreach>
+        order by create_time
+        limit 3
+    </select>
+    <select id="selectAllSubPageCommentVo" resultType="com.xht.model.vo.comment.CommentVo">
+        select
+            article_id,user_id,content,like_count,parent_id,id,reply_count,reply_to_id
+        from comments where  is_deleted = 0 and parent_id = #{commentId}
+        order by create_time
+    </select>
+</mapper>
