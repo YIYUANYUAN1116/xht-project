@@ -1,4 +1,4 @@
-package com.xht.program.listener;
+package com.xht.program.comsumer;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rabbitmq.client.Channel;
@@ -6,7 +6,7 @@ import com.xht.model.entity.comment.CommentLikes;
 import com.xht.model.entity.comment.Comments;
 import com.xht.model.event.CommentCreateEvent;
 import com.xht.model.event.CommentLikeEvent;
-import com.xht.program.config.CommentMQConfig;
+import com.xht.program.config.mq.CommentMQConfig;
 import com.xht.program.mapper.CommentMapper;
 import com.xht.program.service.CommentLikeService;
 import com.xht.program.service.CommentService;

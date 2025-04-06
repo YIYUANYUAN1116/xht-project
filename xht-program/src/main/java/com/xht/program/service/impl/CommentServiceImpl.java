@@ -4,14 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xht.model.contant.RedisConst;
+import com.xht.model.contant.RedisKeyConst;
 import com.xht.model.dto.CommentCreateDTO;
 import com.xht.model.dto.CommentLikeDTO;
 import com.xht.model.entity.comment.Comments;
 import com.xht.model.event.CommentCreateEvent;
 import com.xht.model.event.CommentLikeEvent;
 import com.xht.model.vo.comment.CommentVo;
-import com.xht.program.config.CommentMQConfig;
+import com.xht.program.config.mq.CommentMQConfig;
 import com.xht.program.mapper.CommentMapper;
 import com.xht.program.service.CommentService;
 import org.springframework.amqp.core.Message;
@@ -23,8 +23,6 @@ import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,7 +36,7 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comments>  implements CommentService {
 
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<String,String> redisTemplate;
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
@@ -68,8 +66,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comments>  im
 
     @Override
     public void like(CommentLikeDTO commentLikeDTO) {
-        String relateKey = RedisConst.COMMENT_LIKES_KEY+commentLikeDTO.getCommentId();
-        String countKey = RedisConst.COMMENT_LIKES_COUNT_KEY+commentLikeDTO.getCommentId();
+        String relateKey = RedisKeyConst.COMMENT_LIKES_KEY+commentLikeDTO.getCommentId();
+        String countKey = RedisKeyConst.COMMENT_LIKES_COUNT_KEY+commentLikeDTO.getCommentId();
 
         // 使用 Lua 脚本保证原子性（检查用户是否点赞并更新计数器）
         String luaScript = """

@@ -1,8 +1,7 @@
-package com.xht.program.config;
+package com.xht.program.config.mq;
 
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
