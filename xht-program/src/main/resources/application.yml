@@ -37,6 +37,15 @@ spring:
       direct:
         acknowledge-mode: manual #手动确认消息被消费
 
+#      simple:
+#        acknowledge-mode: manual #手动确认消息被消费
+#        retry:
+#          enabled: true
+#          max-attempts: 5 #重试次数
+#          initial-interval: 5000  #重试间隔时间（单位毫秒）
+#          max-interval: 10000   #重试最大时间间隔（单位毫秒）
+#          stateless: true
+
 mybatis-plus:
   mapper-locations: classpath:/mappers/*.xml
   config-location: classpath:/mybatis-config.xml
@@ -70,3 +79,8 @@ logging:
       springframework:
         jdbc: debug
 
+minio:
+  endpoint: http://192.168.213.139:9090
+  accessKey: admin
+  secretKey: yzd2021$$
+  bucket: bigFile

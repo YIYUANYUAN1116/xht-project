@@ -62,7 +62,6 @@ public class SecKillConsumer {
                 log.info("扣减库存失败：activityId:{},itemId:{},userId:{},version:{}",activityId,itemId,userId,item.getVersion());
                 return;
             }
-
             //创建订单
             SeckillOrder seckillOrder = new SeckillOrder();
             BeanUtils.copyProperties(secKillOrderEven,seckillOrder);
@@ -74,8 +73,8 @@ public class SecKillConsumer {
             //发送订单定时队列
             rabbitTemplate.convertAndSend(OrderMQConfig.ORDER_EVENT_EXCHANGE,OrderMQConfig.ORDER_DELAY_ROUTE_KEY,seckillOrder);
             channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-        } catch (IOException e) {
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+        } catch (Exception e) {
+//            channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,true);
             throw new RuntimeException(e);
         }
 

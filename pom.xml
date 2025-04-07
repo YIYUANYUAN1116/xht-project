@@ -35,6 +35,8 @@
         <fastjson.version>2.0.41</fastjson.version>
         <lombok.version>1.18.20</lombok.version>
         <redisson.version>3.43.0</redisson.version>
+        <minio.version>8.5.15</minio.version>
+        <simplemagic.verion>1.17</simplemagic.verion>
     </properties>
 
     <dependencyManagement>
@@ -64,6 +66,20 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/io.minio/minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+            <!--根据扩展名取mimetype-->
+            <dependency>
+                <groupId>com.j256.simplemagic</groupId>
+                <artifactId>simplemagic</artifactId>
+                <version>${simplemagic.verion}</version>
             </dependency>
 
             <dependency>
